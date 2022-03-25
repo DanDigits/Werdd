@@ -114,7 +114,7 @@ class ViewController: UIViewController {
             
             typeLabel.leadingAnchor.constraint(equalTo: wordLabel.trailingAnchor, constant: 20),
             
-            //definitionLabel.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 10),
+            definitionLabel.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 10),
             definitionLabel.leadingAnchor.constraint(equalTo: cardStackView.leadingAnchor, constant: 20),
             definitionLabel.trailingAnchor.constraint(equalTo: cardStackView.trailingAnchor, constant: -20),
             definitionLabel.bottomAnchor.constraint(equalTo: cardStackView.bottomAnchor, constant: -20),
