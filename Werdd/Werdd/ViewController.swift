@@ -110,7 +110,7 @@ class ViewController: UIViewController {
             titleStackView.topAnchor.constraint(equalTo: cardStackView.topAnchor, constant: 20),
             titleStackView.leadingAnchor.constraint(equalTo: cardStackView.leadingAnchor, constant: 20),
             titleStackView.trailingAnchor.constraint(equalTo: cardStackView.trailingAnchor, constant: -20),
-            titleStackView.heightAnchor.constraint(equalTo: cardStackView.heightAnchor, multiplier: 0.15),  // Disappears completely
+            titleStackView.heightAnchor.constraint(equalTo: cardStackView.heightAnchor, multiplier: 0.15),  // Issues
             
             typeLabel.leadingAnchor.constraint(equalTo: wordLabel.trailingAnchor, constant: 20),
             
