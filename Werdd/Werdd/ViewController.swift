@@ -7,12 +7,20 @@
 
 import UIKit
 
+// Word struct
+struct Word {
+    let title: String
+    let type: String
+    let definition: String
+//    let antonym: String
+//    let synonym: String
+//    let example: String
+}
+
 class ViewController: UIViewController {
-    // Create views
     let appLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-            // Automatically sets autolayout for view; set false when setting it yourself. Always set.
+        label.translatesAutoresizingMaskIntoConstraints = false // Automatically sets autolayout for view; set false when setting it yourself. Always set.
         label.text = "Werdd."
         label.font = UIFont.systemFont(ofSize: 47, weight: .bold)
         label.textAlignment = .left
@@ -69,16 +77,15 @@ class ViewController: UIViewController {
         return label
     }()
     
-    let refreshButton: UIButton = {
-        let button = UIButton()
+    let refreshButton: ButtonTemplate = {
+        let button = ButtonTemplate()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(refreshButtonPressed), for: .touchUpInside)
-            // Self refers to this respective viewcontroller
-        button.backgroundColor = .red
         return button
     }()
 
-    // viewDidLoad() ------------------------------------------------------------------------------------------------
+    
+    
+// viewDidLoad() ------------------------------------------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set app background color
@@ -86,12 +93,11 @@ class ViewController: UIViewController {
         
         // Set up UI
         arrangeUI()
-        
     }
     
-    // Functions ---------------------------------------------------------------------------------------------------
+// Functions ---------------------------------------------------------------------------------------------------
+    // Function specifically to add subviews and manage layout constrains in app, meant more so to be clean
     func arrangeUI() {
-        // Function specifically to add subviews and manage layout constrains in app, meant more so to be clean
         view.addSubview(appLabel)
         view.addSubview(scrollView)
         view.addSubview(refreshButton)
@@ -143,8 +149,13 @@ class ViewController: UIViewController {
         ])
     }
     
-    @objc func refreshButtonPressed() {
-        print("Button Pressed")
-    }
+// Dictionaries ---------------------------------------------------------------------------------------------------
+    let dictionary: [Word] = [
+        Word(title: "Bus", type: "noun", definition: "Carries children"),
+        Word(title: "Bus", type: "noun", definition: "Carries children"),
+        Word(title: "Bus", type: "noun", definition: "Carries children"),
+        Word(title: "Bus", type: "noun", definition: "Carries children"),
+        Word(title: "Bus", type: "noun", definition: "Carries children"),
+    ]
 }
 
