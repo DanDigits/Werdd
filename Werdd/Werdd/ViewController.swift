@@ -11,7 +11,8 @@ class ViewController: UIViewController {
     // Create views
     let appLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false // Automatically sets autolayout for view. set false when setting it yourself. Always set.
+        label.translatesAutoresizingMaskIntoConstraints = false
+            // Automatically sets autolayout for view; set false when setting it yourself. Always set.
         label.text = "Werdd."
         label.font = UIFont.systemFont(ofSize: 47, weight: .bold)
         label.textAlignment = .left
@@ -19,11 +20,18 @@ class ViewController: UIViewController {
         return label
     }()
     
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.layer.cornerRadius = 50
+        scrollView.backgroundColor = UIColor(named: "CardColor")
+        return scrollView
+    }()
+    
     let cardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(named: "CardColor")
-        view.layer.cornerRadius = 50
+        //view.backgroundColor = .blue
         return view
     }()
     
@@ -52,13 +60,22 @@ class ViewController: UIViewController {
     let definitionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Creating a sequence of instructions to enable a computer to do something"
+        label.text = "Creating a sequence of instructions to enable a computer to do something."
         label.font = UIFont(name: "PTSerif-Regular", size: 15)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.textAlignment = .left
         //label.backgroundColor = .cyan
         return label
+    }()
+    
+    let refreshButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(refreshButtonPressed), for: .touchUpInside)
+            // Self refers to this respective viewcontroller
+        button.backgroundColor = .red
+        return button
     }()
 
     // viewDidLoad() ------------------------------------------------------------------------------------------------
@@ -75,9 +92,10 @@ class ViewController: UIViewController {
     // Functions ---------------------------------------------------------------------------------------------------
     func arrangeUI() {
         // Function specifically to add subviews and manage layout constrains in app, meant more so to be clean
-        
         view.addSubview(appLabel)
-        view.addSubview(cardView)
+        view.addSubview(scrollView)
+        view.addSubview(refreshButton)
+        scrollView.addSubview(cardView)
         cardView.addSubview(wordLabel)
         cardView.addSubview(typeLabel)
         cardView.addSubview(definitionLabel)
@@ -88,26 +106,45 @@ class ViewController: UIViewController {
             appLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             appLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
             
-            // Card background view
-            cardView.topAnchor.constraint(equalTo: appLabel.bottomAnchor, constant: 35),
-            cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            cardView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
+            // Scroll view
+            scrollView.topAnchor.constraint(equalTo: appLabel.bottomAnchor, constant: 35),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            scrollView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
             
-            // Respective word label, and type of speech label
+            // Refresh button
+            refreshButton.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -70),
+            refreshButton.leadingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -70),
+            refreshButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -25),
+            refreshButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -25),
+            
+            // Card view
+            cardView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            cardView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            cardView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            cardView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            cardView.bottomAnchor.constraint(equalTo: definitionLabel.bottomAnchor, constant: 25),
+            
+            // Respective word and type of speech labels
             wordLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 20),
             wordLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 23),
             
-            typeLabel.topAnchor.constraint(equalTo: wordLabel.topAnchor, constant: 17), // Would it be better to specify bottom text alignment and have typeLabel instead bottom anchor to worldlabel bottom anchor? Then location next to word label should be based on size and not respective constraints
+            typeLabel.topAnchor.constraint(equalTo: wordLabel.topAnchor, constant: 17),
+                // Would it be better to specify bottom text alignment and have typeLabel instead bottom anchor to worldlabel bottom anchor? Then location next to word label should be based on size and not respective constraints
             typeLabel.leadingAnchor.constraint(equalTo: wordLabel.trailingAnchor, constant: 10),
             typeLabel.trailingAnchor.constraint(lessThanOrEqualTo: cardView.trailingAnchor),
             
-            // Definition body label
+            // Definition body label --- RESOLVE SCROLL VIEW ISSUES
             definitionLabel.topAnchor.constraint(equalTo: typeLabel.bottomAnchor, constant: 10),
             definitionLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 23),
-            definitionLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -15),
-            //definitionLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -10),
+            //definitionLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: 23),
+            definitionLabel.widthAnchor.constraint(equalTo: cardView.widthAnchor, constant: -46),
+            definitionLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
         ])
+    }
+    
+    @objc func refreshButtonPressed() {
+        print("Button Pressed")
     }
 }
 
