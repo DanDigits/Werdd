@@ -18,6 +18,7 @@ struct Word {
 }
 
 class ViewController: UIViewController {
+    var buttonCounter: Int = 0
     let appLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false // Automatically sets autolayout for view; set false when setting it yourself. Always set.
@@ -80,6 +81,7 @@ class ViewController: UIViewController {
     let refreshButton: ButtonTemplate = {
         let button = ButtonTemplate()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(ViewController.self, action: #selector(refreshButtonPressed), for: .touchUpInside)
         return button
     }()
 
@@ -96,7 +98,7 @@ class ViewController: UIViewController {
     }
     
 // Functions ---------------------------------------------------------------------------------------------------
-    // Function specifically to add subviews and manage layout constrains in app, meant more so to be clean
+    // Add subviews and manage layout constraints
     func arrangeUI() {
         view.addSubview(appLabel)
         view.addSubview(scrollView)
@@ -149,13 +151,38 @@ class ViewController: UIViewController {
         ])
     }
     
+    // Update views with new information
+    func updateViews(withDictionary dictionary: Word) {
+            // ASK!!!!!! Why ? in instruction video and what "withDictionary"
+        wordLabel.text = dictionary.title
+        typeLabel.text = dictionary.type
+        definitionLabel.text = dictionary.definition
+    }
+    
+    // Randomizer
+    func randomizeWord() -> Word? {
+            // ASKK!!!!!! how to provide an operator in case dictionary fail with ??
+        return dictionary.randomElement()
+    }
+    
+    // Button Action
+    @objc func refreshButtonPressed() {
+        buttonCounter += 1
+        let randomWord = randomizeWord()
+        updateViews(withDictionary: randomWord!)
+        print("Button Pressed: \(buttonCounter)")
+    }
+    
 // Dictionaries ---------------------------------------------------------------------------------------------------
     let dictionary: [Word] = [
         Word(title: "Bus", type: "noun", definition: "Carries children"),
-        Word(title: "Bus", type: "noun", definition: "Carries children"),
-        Word(title: "Bus", type: "noun", definition: "Carries children"),
-        Word(title: "Bus", type: "noun", definition: "Carries children"),
-        Word(title: "Bus", type: "noun", definition: "Carries children"),
+        Word(title: "Tire", type: "noun", definition: "Protective treading on wheels to improve acceleration"),
+        Word(title: "Swift", type: "noun", definition: "Apple's native and proprietary programming language"),
+        Word(title: "Alerted", type: "adjective", definition: "To be in a state of heightened awareness"),
+        Word(title: "Barack Obama", type: "noun", definition: "44th President of the United States"),
+        Word(title: "Scary", type: "adjective", definition: "To elicit feelings of fear"),
+        Word(title: "Test", type: "TEST", definition: "TESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTES"),
+        Word(title: "Rocket", type: "noun", definition: "A jet engine that operates on the same principle as the firework rocket, consists essentially of a combustion chamber and an exhaust nozzle, carries either liquid or solid propellants which provide the fuel and oxygen needed for combustion and thus make the engine independent of the oxygen of the air, and is used especially for the propulsion of a missile (such as a bomb or shell) or a vehicle (such as an airplane)"),
     ]
 }
 

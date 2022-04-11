@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 class ButtonTemplate: UIButton {
+    //var buttonCounter: Int = 0
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -34,10 +36,12 @@ class ButtonTemplate: UIButton {
         let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium, scale: .medium)
         let image = UIImage(systemName: "arrow.triangle.2.circlepath.circle", withConfiguration: symbolConfiguration)
         setImage(image, for: .normal)
-        addTarget(self, action: #selector(refreshButtonPressed), for: .touchUpInside)
+        //addTarget(self, action: #selector(refreshButtonPressed), for: .touchUpInside)
     }
     
-    @objc func refreshButtonPressed() {
-        print("Button Pressed")
-    }
+    //@objc func refreshButtonPressed() {
+        //buttonCounter += 1
+        //ViewController.updateViews(ViewController.dict)
+        //print("Button Pressed: \(buttonCounter)")
+    //}
 }
