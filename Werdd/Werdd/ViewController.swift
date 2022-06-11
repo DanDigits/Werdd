@@ -1,24 +1,21 @@
 //
 //  ViewController.swift
 //  Werdd
+//  Main View Controller
+//  Created by Daniel Cruz-Castro on 3/17/22.
 //
-//  Created by Daniel-Cruz Castro on 3/17/22.
-//
+//  To Do:
+//  - Clean up code through subclassing and extensions
+//  - Fix ScrollView Function
+//  - Figure Custom Colors
 
 import UIKit
 
-// Word struct
-struct Word {
-    let title: String
-    let type: String
-    let definition: String
-//    let antonym: String
-//    let synonym: String
-//    let example: String
-}
 
 class ViewController: UIViewController {
     var buttonCounter: Int = 0
+    var oneHundredEnglishWordsVolumeOne = Dictionary()
+    
     let appLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false // Automatically sets autolayout for view; set false when setting it yourself. Always set.
@@ -81,28 +78,59 @@ class ViewController: UIViewController {
     let refreshButton: ButtonTemplate = {
         let button = ButtonTemplate()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(ViewController.self, action: #selector(refreshButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(refreshButtonPressed), for: .touchUpInside)
         return button
     }()
-
     
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
     
-// viewDidLoad() ------------------------------------------------------------------------------------------------
+// viewDidLoad() -----------------------------------------------------------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set app background color
         view.backgroundColor = UIColor(named: "WerddColor")
         
+        // UITableViewDataSource and UITableViewDelegate delegates work to ViewController for tableView by declaring this
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         // Set up UI
         arrangeUI()
     }
+
+// Functions -------------------------------------------------------------------------------------------------------------------
+    // Update views with new information
+    func updateViews(withDictionary dictionary: Word) {
+/// ASK!!!!!! Why ? in instruction video and what "withDictionary"
+        wordLabel.text = dictionary.title
+        typeLabel.text = dictionary.type
+        definitionLabel.text = dictionary.definition
+    }
     
-// Functions ---------------------------------------------------------------------------------------------------
+    // Randomize which word is pulled from the dictionary (and shown)
+    func randomizeWord() -> Word? {
+/// ASKK!!!!!! how to provide an operator in case dictionary fail with ??
+        return oneHundredEnglishWordsVolumeOne.dictionary.randomElement()
+    }
+    
+    // Specify button action
+    @objc func refreshButtonPressed() {
+        buttonCounter += 1
+        let randomWord = randomizeWord()
+        updateViews(withDictionary: randomWord!)
+        print("Button Pressed: \(buttonCounter)")
+    }
+    
     // Add subviews and manage layout constraints
     func arrangeUI() {
         view.addSubview(appLabel)
         view.addSubview(scrollView)
         view.addSubview(refreshButton)
+        view.addSubview(tableView)
         scrollView.addSubview(cardView)
         cardView.addSubview(wordLabel)
         cardView.addSubview(typeLabel)
@@ -115,14 +143,14 @@ class ViewController: UIViewController {
             appLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
             
             // Scroll view
-            scrollView.topAnchor.constraint(equalTo: appLabel.bottomAnchor, constant: 35),
+            scrollView.topAnchor.constraint(equalTo: appLabel.bottomAnchor, constant: 25),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             scrollView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
             
             // Refresh button
-            refreshButton.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -70),
-            refreshButton.leadingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -70),
+            refreshButton.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -60), //-445 for top placement
+            refreshButton.leadingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -65),
             refreshButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -25),
             refreshButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -25),
             
@@ -137,8 +165,7 @@ class ViewController: UIViewController {
             wordLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 20),
             wordLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 23),
             
-            typeLabel.topAnchor.constraint(equalTo: wordLabel.topAnchor, constant: 17),
-                // Would it be better to specify bottom text alignment and have typeLabel instead bottom anchor to worldlabel bottom anchor? Then location next to word label should be based on size and not respective constraints
+            typeLabel.topAnchor.constraint(equalTo: wordLabel.topAnchor, constant: 17), // Would it be better to specify bottom text alignment and have typeLabel instead bottom anchor to worldlabel bottom anchor? Then location next to word label should be based on vertical size and not respective constraints
             typeLabel.leadingAnchor.constraint(equalTo: wordLabel.trailingAnchor, constant: 10),
             typeLabel.trailingAnchor.constraint(lessThanOrEqualTo: cardView.trailingAnchor),
             
@@ -148,41 +175,49 @@ class ViewController: UIViewController {
             //definitionLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: 23),
             definitionLabel.widthAnchor.constraint(equalTo: cardView.widthAnchor, constant: -46),
             definitionLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+            
+            // Table view
+            tableView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 15),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-    
-    // Update views with new information
-    func updateViews(withDictionary dictionary: Word) {
-            // ASK!!!!!! Why ? in instruction video and what "withDictionary"
-        wordLabel.text = dictionary.title
-        typeLabel.text = dictionary.type
-        definitionLabel.text = dictionary.definition
-    }
-    
-    // Randomizer
-    func randomizeWord() -> Word? {
-            // ASKK!!!!!! how to provide an operator in case dictionary fail with ??
-        return dictionary.randomElement()
-    }
-    
-    // Button Action
-    @objc func refreshButtonPressed() {
-        buttonCounter += 1
-        let randomWord = randomizeWord()
-        updateViews(withDictionary: randomWord!)
-        print("Button Pressed: \(buttonCounter)")
-    }
-    
-// Dictionaries ---------------------------------------------------------------------------------------------------
-    let dictionary: [Word] = [
-        Word(title: "Bus", type: "noun", definition: "Carries children"),
-        Word(title: "Tire", type: "noun", definition: "Protective treading on wheels to improve acceleration"),
-        Word(title: "Swift", type: "noun", definition: "Apple's native and proprietary programming language"),
-        Word(title: "Alerted", type: "adjective", definition: "To be in a state of heightened awareness"),
-        Word(title: "Barack Obama", type: "noun", definition: "44th President of the United States"),
-        Word(title: "Scary", type: "adjective", definition: "To elicit feelings of fear"),
-        Word(title: "Test", type: "TEST", definition: "TESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTESTES"),
-        Word(title: "Rocket", type: "noun", definition: "A jet engine that operates on the same principle as the firework rocket, consists essentially of a combustion chamber and an exhaust nozzle, carries either liquid or solid propellants which provide the fuel and oxygen needed for combustion and thus make the engine independent of the oxygen of the air, and is used especially for the propulsion of a missile (such as a bomb or shell) or a vehicle (such as an airplane)"),
-    ]
 }
 
+
+
+
+
+// Extension for Table View Data Source --------------------------------------------------------------------------------------------
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return oneHundredEnglishWordsVolumeOne.dictionary.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        var content = cell.defaultContentConfiguration() // Method returns styling and text for cell
+        
+        // Establish tableView cell content
+        content.text = oneHundredEnglishWordsVolumeOne.dictionary[indexPath.row].title
+        content.secondaryText = oneHundredEnglishWordsVolumeOne.dictionary[indexPath.row].definition
+        
+        cell.contentConfiguration = content
+        return cell
+    }
+}
+
+// Extension for Table View Delegation --------------------------------------------------------------------------------------------
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("\(oneHundredEnglishWordsVolumeOne.dictionary[indexPath.row].title)")
+    }
+}
+
+/* Extension for custom colors ---------------------------------------------------------------------------------------------------
+extension UIColor {
+    static let backgroundColor = UIColor(named: "WerddColor")
+    static let werddColor = UIColor(named: "CardColor")
+}
+*/

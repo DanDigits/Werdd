@@ -17,6 +17,7 @@
 		6570D24A27F7E03F00C248D4 /* PTSerif-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6570D24627F7E03F00C248D4 /* PTSerif-BoldItalic.ttf */; };
 		6570D24B27F7E03F00C248D4 /* PTSerif-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6570D24727F7E03F00C248D4 /* PTSerif-Italic.ttf */; };
 		6570D24C27F7E03F00C248D4 /* PTSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6570D24827F7E03F00C248D4 /* PTSerif-Regular.ttf */; };
+		658E11D12854428300BF2CE5 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658E11D02854428300BF2CE5 /* Dictionary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		6570D24627F7E03F00C248D4 /* PTSerif-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PTSerif-BoldItalic.ttf"; sourceTree = "<group>"; };
 		6570D24727F7E03F00C248D4 /* PTSerif-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PTSerif-Italic.ttf"; sourceTree = "<group>"; };
 		6570D24827F7E03F00C248D4 /* PTSerif-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PTSerif-Regular.ttf"; sourceTree = "<group>"; };
+		658E11D02854428300BF2CE5 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				653BC8FD27E3C92C00783F6B /* AppDelegate.swift */,
 				653BC8FF27E3C92C00783F6B /* SceneDelegate.swift */,
 				653BC90127E3C92C00783F6B /* ViewController.swift */,
+				658E11D02854428300BF2CE5 /* Dictionary.swift */,
 				653BC90627E3C92D00783F6B /* Assets.xcassets */,
 				653BC90827E3C92D00783F6B /* LaunchScreen.storyboard */,
 				653BC90B27E3C92D00783F6B /* Info.plist */,
@@ -165,6 +168,7 @@
 				6521A631280447420082C526 /* ButtonTemplate.swift in Sources */,
 				653BC8FE27E3C92C00783F6B /* AppDelegate.swift in Sources */,
 				653BC90027E3C92C00783F6B /* SceneDelegate.swift in Sources */,
+				658E11D12854428300BF2CE5 /* Dictionary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
