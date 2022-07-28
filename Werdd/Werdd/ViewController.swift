@@ -7,7 +7,7 @@
 //  To Do:
 //  - Clean up code through subclassing and extensions
 //  - Fix ScrollView Function
-//  - Figure Custom Colors
+//  - Figure implementation of custom colors
 
 import UIKit
 
@@ -85,6 +85,10 @@ class ViewController: UIViewController {
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(TableViewCellTemplate.self, forCellReuseIdentifier: "TableViewCellTemplate") // Register custom tableView cell to table view
+        tableView.layer.cornerRadius = 25
+        tableView.backgroundColor = .systemPink
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -151,30 +155,28 @@ class ViewController: UIViewController {
             // Refresh button
             refreshButton.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -60), //-445 for top placement
             refreshButton.leadingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -65),
-            refreshButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -25),
+            refreshButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -27),
             refreshButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -25),
             
             // Card view
+            cardView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             cardView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             cardView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            cardView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            cardView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            cardView.bottomAnchor.constraint(equalTo: definitionLabel.bottomAnchor, constant: 25),
+            //cardView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
             // Respective word and type of speech labels
             wordLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 20),
             wordLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 23),
             
-            typeLabel.topAnchor.constraint(equalTo: wordLabel.topAnchor, constant: 17), // Would it be better to specify bottom text alignment and have typeLabel instead bottom anchor to worldlabel bottom anchor? Then location next to word label should be based on vertical size and not respective constraints
+            typeLabel.topAnchor.constraint(equalTo: wordLabel.topAnchor, constant: 17), /// Would it be better to specify bottom text alignment and have typeLabel instead bottom anchor to worldlabel bottom anchor? Then location next to word label should be based on vertical size and not respective constraints?
             typeLabel.leadingAnchor.constraint(equalTo: wordLabel.trailingAnchor, constant: 10),
             typeLabel.trailingAnchor.constraint(lessThanOrEqualTo: cardView.trailingAnchor),
             
-            // Definition body label --- RESOLVE SCROLL VIEW ISSUES
+            // Definition body label
             definitionLabel.topAnchor.constraint(equalTo: typeLabel.bottomAnchor, constant: 10),
             definitionLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 23),
-            //definitionLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: 23),
-            definitionLabel.widthAnchor.constraint(equalTo: cardView.widthAnchor, constant: -46),
-            definitionLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+            definitionLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -23),
+            //definitionLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
             
             // Table view
             tableView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 15),
@@ -196,14 +198,19 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        var content = cell.defaultContentConfiguration() // Method returns styling and text for cell
+        // Guard lets you direct what happens should any error occur (the "else" statement), needs to cast as type not implicitly stated
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCellTemplate", for: indexPath) as? TableViewCellTemplate else {
+            return UITableViewCell()
+        }
         
-        // Establish tableView cell content
-        content.text = oneHundredEnglishWordsVolumeOne.dictionary[indexPath.row].title
-        content.secondaryText = oneHundredEnglishWordsVolumeOne.dictionary[indexPath.row].definition
+        // Update cell styling/text/design
+/// SHOULD THIS BE LET? ALSO HOW TO RETURN UITABLEVIEWCELL IF FAILS?
+        var Word: Word? = oneHundredEnglishWordsVolumeOne.dictionary[indexPath.row]
+/// ASK WHY PRODUCT = PRODUCT TO UNWRAP
+        if let Word = Word {
+            cell.update(title: Word.title, type: Word.type, definition: Word.definition)
+        }
         
-        cell.contentConfiguration = content
         return cell
     }
 }
