@@ -6,11 +6,10 @@
 //
 //  To Do:
 //  - Clean up code through subclassing and extensions
-//  - Fix ScrollView Function
-//  - Figure implementation of custom colors
+//  - Fix ScrollView
+//  - Figure custom color function
 
 import UIKit
-
 
 class ViewController: UIViewController {
     var buttonCounter: Int = 0
@@ -162,7 +161,7 @@ class ViewController: UIViewController {
             cardView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             cardView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             cardView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            //cardView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            cardView.widthAnchor.constraint(equalTo: scrollView.widthAnchor), //--------> Scrolling Limiter
             
             // Respective word and type of speech labels
             wordLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 20),
@@ -176,7 +175,7 @@ class ViewController: UIViewController {
             definitionLabel.topAnchor.constraint(equalTo: typeLabel.bottomAnchor, constant: 10),
             definitionLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 23),
             definitionLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -23),
-            //definitionLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+//            definitionLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor), //--------------> Related to veritcal scrolling
             
             // Table view
             tableView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 15),
@@ -219,12 +218,13 @@ extension ViewController: UITableViewDataSource {
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(oneHundredEnglishWordsVolumeOne.dictionary[indexPath.row].title)")
+/// WHY OPTIONAL?
+        //navigationController?.pushViewController(<#T##viewController: UIViewController##UIViewController#>, animated: <#T##Bool#>)
     }
 }
 
-/* Extension for custom colors ---------------------------------------------------------------------------------------------------
-extension UIColor {
-    static let backgroundColor = UIColor(named: "WerddColor")
-    static let werddColor = UIColor(named: "CardColor")
-}
-*/
+//Extension for custom colors ---------------------------------------------------------------------------------------------------
+//extension UIColor {
+//    static let backgroundColor = UIColor(named: "WerddColor")
+//    static let werddColor = UIColor(named: "CardColor")
+//}

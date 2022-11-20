@@ -9,20 +9,18 @@ import Foundation
 import UIKit
 
 class ButtonTemplate: UIButton {
-    //var buttonCounter: Int = 0
+//    var buttonCounter
     
-/// Why?
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-/// Why?
-    /* Blanks out button if enabled
-    override var isEnabled: Bool {
-        didSet {
-            alpha = isEnabled ? 1:0.3
-        }
-    }*/
+//    //Blanks out button if enabled
+//    override var isEnabled: Bool {
+//        didSet {
+//            alpha = isEnabled ? 1:0.3
+//        }
+//    }
     
     // Override init-------------------------------------------------------------------------------
     override init(frame: CGRect) {
@@ -32,16 +30,16 @@ class ButtonTemplate: UIButton {
     
     // Functions ---------------------------------------------------------------------------------
     private func arrangeUI() {
-        tintColor = UIColor(named: "WerddColor") //.black // Color of text
+        tintColor = UIColor(named: "WerddColor")
         let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium, scale: .medium)
         let image = UIImage(systemName: "arrow.triangle.2.circlepath.circle", withConfiguration: symbolConfiguration)
         setImage(image, for: .normal)
-        //addTarget(self, action: #selector(refreshButtonPressed), for: .touchUpInside)
+//        addTarget(self, action: #selector(refreshButtonPressed), for: .touchUpInside)
     }
     
-    //@objc func refreshButtonPressed() {
-        //buttonCounter += 1
-        //ViewController.updateViews(ViewController.dict)
-        //print("Button Pressed: \(buttonCounter)")
-    //}
+//    @objc func refreshButtonPressed() {
+//        buttonCounter += 1
+//        ViewController.updateViews(ViewController.dict)
+//        print("Button Pressed: \(buttonCounter)")
+//    }
 }

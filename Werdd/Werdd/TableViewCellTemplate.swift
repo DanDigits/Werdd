@@ -1,7 +1,7 @@
 //
 // TableViewCellTemplate.swift  -  Werdd
 // Created by: Daniel Cruz Castro on 6/16/22
-// 
+// Stylizes the cell for the tableview
 
 
 import Foundation
@@ -50,7 +50,7 @@ class TableViewCellTemplate: UITableViewCell {
         
         arrangeUI()
         contentView.backgroundColor = .systemPink
-        //contentView.topAnchor.constraint(equalTo: safetopAnchor, constant: 10)
+//        contentView.topAnchor.constraint(equalTo: safetopAnchor, constant: 10)
     }
     
 // Functions -----------------------------------------------------------------------------------------------------
@@ -75,10 +75,10 @@ class TableViewCellTemplate: UITableViewCell {
             titleLabel.topAnchor.constraint(equalTo: cellBubble.topAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: cellBubble.leadingAnchor, constant: 15),
             
-            //typeLabel.topAnchor.constraint(lessThanOrEqualTo: titleLabel.topAnchor),
+//            typeLabel.topAnchor.constraint(lessThanOrEqualTo: titleLabel.topAnchor),
             typeLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 5),
             typeLabel.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: -2),
-            //typeLabel.trailingAnchor.constraint(lessThanOrEqualTo: cellBubble.trailingAnchor),
+//            typeLabel.trailingAnchor.constraint(lessThanOrEqualTo: cellBubble.trailingAnchor),
             
             definitionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             definitionLabel.bottomAnchor.constraint(equalTo: cellBubble.bottomAnchor, constant: -10),
