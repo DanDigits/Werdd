@@ -81,14 +81,19 @@ class ViewController: UIViewController {
         return button
     }()
     
-    let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(TableViewCellTemplate.self, forCellReuseIdentifier: "TableViewCellTemplate") // Register custom tableView cell to table view
-        tableView.layer.cornerRadius = 25
-        tableView.backgroundColor = .systemPink
-        tableView.separatorStyle = .none
-        return tableView
+    // Lazy sets up the collection view when accessed
+/// Does layout/collectionView order matter?
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: view.frame.size.width/3.5, height: view.frame.size.width/3.5)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout) // Set to zero to allow autolayout modification
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.backgroundColor = .systemPink
+        return collectionView
     }()
     
 // viewDidLoad() -----------------------------------------------------------------------------------------------------------------
@@ -98,8 +103,10 @@ class ViewController: UIViewController {
         view.backgroundColor = UIColor(named: "WerddColor")
         
         // UITableViewDataSource and UITableViewDelegate delegates work to ViewController for tableView by declaring this
-        tableView.dataSource = self
-        tableView.delegate = self
+        //tableView.dataSource = self
+        //tableView.delegate = self
+        
+        collectionView.dataSource = self
         
         // Set up UI
         arrangeUI()
@@ -133,7 +140,7 @@ class ViewController: UIViewController {
         view.addSubview(appLabel)
         view.addSubview(scrollView)
         view.addSubview(refreshButton)
-        view.addSubview(tableView)
+        view.addSubview(collectionView)
         scrollView.addSubview(cardView)
         cardView.addSubview(wordLabel)
         cardView.addSubview(typeLabel)
@@ -178,18 +185,51 @@ class ViewController: UIViewController {
 //            definitionLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor), //--------------> Related to veritcal scrolling
             
             // Table view
-            tableView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 15),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 25),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 }
 
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // What cell to use for each column/row
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        cell.contentView.backgroundColor = .cyan
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // Number of items in cell
+        return 24
+    }
+}
+
+//Extension for custom colors ---------------------------------------------------------------------------------------------------
+//extension UIColor {
+//    static let backgroundColor = UIColor(named: "WerddColor")
+//    static let werddColor = UIColor(named: "CardColor")
+//}
 
 
 
 
+
+// DEPRECATED TABLE VIEW CODE-------------------------------------------------------------------------------------------------------
+/* DEPRECATED TABLE VIEW INIT
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(TableViewCellTemplate.self, forCellReuseIdentifier: "TableViewCellTemplate") // Register custom tableView cell to table view
+        tableView.layer.cornerRadius = 25
+        tableView.backgroundColor = .systemPink
+        tableView.separatorStyle = .none
+        return tableView
+    }()
+*/
+/* DEPRECATED TABLE VIEW EXTENSIONS
 // Extension for Table View Data Source --------------------------------------------------------------------------------------------
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -222,9 +262,4 @@ extension ViewController: UITableViewDelegate {
         //navigationController?.pushViewController(<#T##viewController: UIViewController##UIViewController#>, animated: <#T##Bool#>)
     }
 }
-
-//Extension for custom colors ---------------------------------------------------------------------------------------------------
-//extension UIColor {
-//    static let backgroundColor = UIColor(named: "WerddColor")
-//    static let werddColor = UIColor(named: "CardColor")
-//}
+*/
