@@ -91,7 +91,7 @@ class ViewController: UIViewController {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout) // Set to zero to allow autolayout modification
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(CollectionViewCellTemplate.self, forCellWithReuseIdentifier: CollectionViewCellTemplate.identifier)
         collectionView.backgroundColor = .systemPink
         return collectionView
     }()
@@ -212,6 +212,13 @@ extension ViewController: UICollectionViewDataSource {
 //    static let backgroundColor = UIColor(named: "WerddColor")
 //    static let werddColor = UIColor(named: "CardColor")
 //}
+
+
+
+
+
+
+
 
 
 

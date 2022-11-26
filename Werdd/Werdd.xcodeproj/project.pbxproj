@@ -19,6 +19,7 @@
 		6570D24C27F7E03F00C248D4 /* PTSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6570D24827F7E03F00C248D4 /* PTSerif-Regular.ttf */; };
 		658E11D12854428300BF2CE5 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658E11D02854428300BF2CE5 /* Dictionary.swift */; };
 		658E11D3285BF03B00BF2CE5 /* TableViewCellTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658E11D2285BF03B00BF2CE5 /* TableViewCellTemplate.swift */; };
+		65A26D122931BB3100B139AB /* CollectionViewCellTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A26D112931BB3100B139AB /* CollectionViewCellTemplate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		6570D24827F7E03F00C248D4 /* PTSerif-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PTSerif-Regular.ttf"; sourceTree = "<group>"; };
 		658E11D02854428300BF2CE5 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		658E11D2285BF03B00BF2CE5 /* TableViewCellTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellTemplate.swift; sourceTree = "<group>"; };
+		65A26D112931BB3100B139AB /* CollectionViewCellTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellTemplate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				653BC90827E3C92D00783F6B /* LaunchScreen.storyboard */,
 				653BC90B27E3C92D00783F6B /* Info.plist */,
 				6521A630280447420082C526 /* ButtonTemplate.swift */,
+				65A26D112931BB3100B139AB /* CollectionViewCellTemplate.swift */,
 			);
 			path = Werdd;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				653BC90227E3C92C00783F6B /* ViewController.swift in Sources */,
 				658E11D3285BF03B00BF2CE5 /* TableViewCellTemplate.swift in Sources */,
 				6521A631280447420082C526 /* ButtonTemplate.swift in Sources */,
+				65A26D122931BB3100B139AB /* CollectionViewCellTemplate.swift in Sources */,
 				653BC8FE27E3C92C00783F6B /* AppDelegate.swift in Sources */,
 				653BC90027E3C92C00783F6B /* SceneDelegate.swift in Sources */,
 				658E11D12854428300BF2CE5 /* Dictionary.swift in Sources */,
