@@ -13,7 +13,7 @@ import UIKit
 
 class ViewController: UIViewController {
     var buttonCounter: Int = 0
-    var oneHundredEnglishWordsVolumeOne = Dictionary()
+    var Volume = Dictionary()
     
     let appLabel: UILabel = {
         let label = UILabel()
@@ -81,8 +81,7 @@ class ViewController: UIViewController {
         return button
     }()
     
-    // Lazy sets up the collection view when accessed
-/// Does layout/collectionView order matter?
+    // Lazy sets up the collection view when accessed, Does layout/collectionView order matter?
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -96,20 +95,34 @@ class ViewController: UIViewController {
         return collectionView
     }()
     
-// viewDidLoad() -----------------------------------------------------------------------------------------------------------------
+// Lifecycle ------------------------------------------------------------------------------------------------------------------
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Set app background color
         view.backgroundColor = UIColor(named: "WerddColor")
         
         // UITableViewDataSource and UITableViewDelegate delegates work to ViewController for tableView by declaring this
         //tableView.dataSource = self
         //tableView.delegate = self
         
+        // Declare extension stuff
         collectionView.dataSource = self
+        collectionView.delegate = self
         
         // Set up UI
         arrangeUI()
+        
+        // Set up navigation
+        arrangeNav()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
 // Functions -------------------------------------------------------------------------------------------------------------------
@@ -124,7 +137,7 @@ class ViewController: UIViewController {
     // Randomize which word is pulled from the dictionary (and shown)
     func randomizeWord() -> Word? {
 /// ASKK!!!!!! how to provide an operator in case dictionary fail with ??
-        return oneHundredEnglishWordsVolumeOne.dictionary.randomElement()
+        return Volume.dictionary.randomElement()
     }
     
     // Specify button action
@@ -153,7 +166,7 @@ class ViewController: UIViewController {
             appLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
             
             // Scroll view
-            scrollView.topAnchor.constraint(equalTo: appLabel.bottomAnchor, constant: 25),
+            scrollView.topAnchor.constraint(equalTo: appLabel.bottomAnchor, constant: 20),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             scrollView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
@@ -185,25 +198,47 @@ class ViewController: UIViewController {
 //            definitionLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor), //--------------> Related to veritcal scrolling
             
             // Table view
-            collectionView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 25),
+            collectionView.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 29),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
+    
+    func arrangeNav() {
+        
+    }
 }
 
+//Extensions -------------------------------------------------------------------------------------------------------------------
 extension ViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1//return producttype.allcases.count, CaseIterable
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // What cell to use for each column/row
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        cell.contentView.backgroundColor = .cyan
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellTemplate.identifier, for: indexPath) as? CollectionViewCellTemplate else {
+            return CollectionViewCellTemplate()
+        }
+///WHY?
+        let Word: Word? = Volume.dictionary[indexPath.row]
+        if let Word = Word {
+            cell.update(title: Word.title, definition: Word.definition)
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // Number of items in cell
-        return 24
+        return Volume.dictionary.count
+    }
+}
+
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("\(Volume.dictionary[indexPath.row].title)")
+        navigationController?.pushViewController(<#T##viewController: UIViewController##UIViewController#>, animated: <#T##Bool#>)
     }
 }
 
@@ -236,11 +271,13 @@ extension ViewController: UICollectionViewDataSource {
         return tableView
     }()
 */
+
+
 /* DEPRECATED TABLE VIEW EXTENSIONS
 // Extension for Table View Data Source --------------------------------------------------------------------------------------------
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return oneHundredEnglishWordsVolumeOne.dictionary.count
+        return Volume.dictionary.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -251,7 +288,7 @@ extension ViewController: UITableViewDataSource {
         
         // Update cell styling/text/design
 /// SHOULD THIS BE LET? ALSO HOW TO RETURN UITABLEVIEWCELL IF FAILS?
-        var Word: Word? = oneHundredEnglishWordsVolumeOne.dictionary[indexPath.row]
+        var Word: Word? = Volume.dictionary[indexPath.row]
 /// ASK WHY PRODUCT = PRODUCT TO UNWRAP
         if let Word = Word {
             cell.update(title: Word.title, type: Word.type, definition: Word.definition)
@@ -264,7 +301,7 @@ extension ViewController: UITableViewDataSource {
 // Extension for Table View Delegation --------------------------------------------------------------------------------------------
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("\(oneHundredEnglishWordsVolumeOne.dictionary[indexPath.row].title)")
+        print("\(Volume.dictionary[indexPath.row].title)")
 /// WHY OPTIONAL?
         //navigationController?.pushViewController(<#T##viewController: UIViewController##UIViewController#>, animated: <#T##Bool#>)
     }
