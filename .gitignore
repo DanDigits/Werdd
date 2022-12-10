@@ -4,6 +4,7 @@
 ### macOS ###
 # General
 Werdd/.DS_Store
+.DS_Store
 .AppleDouble
 .LSOverride
 
@@ -131,3 +132,7 @@ iOSInjectionProject/
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 Werdd/Werdd.xcodeproj/!*.xcodeproj/*
+Werdd/Werdd.xcodeproj/xcshareddata
+Werdd/Werdd.xcodeproj/project.pbxproj
+Werdd/Werdd.xcodeproj/*
+
