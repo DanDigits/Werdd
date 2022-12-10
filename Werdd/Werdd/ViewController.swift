@@ -242,6 +242,7 @@ extension ViewController: UICollectionViewDelegate {
     }
 }
 
+
 //Extension for custom colors ---------------------------------------------------------------------------------------------------
 //extension UIColor {
 //    static let backgroundColor = UIColor(named: "WerddColor")
