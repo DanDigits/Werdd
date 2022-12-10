@@ -134,5 +134,4 @@ iOSInjectionProject/
 Werdd/Werdd.xcodeproj/!*.xcodeproj/*
 Werdd/Werdd.xcodeproj/xcshareddata
 Werdd/Werdd.xcodeproj/project.pbxproj
-Werdd/Werdd.xcodeproj/*
-
+Werdd/Werdd.xcodeproj
