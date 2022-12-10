@@ -3,7 +3,7 @@
 
 ### macOS ###
 # General
-.DS_Store
+Werdd/.DS_Store
 .AppleDouble
 .LSOverride
 
@@ -40,7 +40,8 @@ Temporary Items
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
 ## User settings
-xcuserdata/
+Werdd/Werdd/xcuserdata/
+Werdd/Werdd.xcodeproj/xcuserdata/
 
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
@@ -129,3 +130,4 @@ iOSInjectionProject/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
+Werdd/Werdd.xcodeproj/!*.xcodeproj/*
