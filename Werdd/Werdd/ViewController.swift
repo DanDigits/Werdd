@@ -1,7 +1,7 @@
 //
 //  ViewController.swift
 //  Werdd
-//  Main View Controller
+//  Root View Controller
 //  Created by Daniel Cruz-Castro on 3/17/22.
 //
 //  To Do:
@@ -77,17 +77,19 @@ class ViewController: UIViewController {
     let refreshButton: ButtonTemplate = {
         let button = ButtonTemplate()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(refreshButtonPressed), for: .touchUpInside)
+        button.addTarget(ViewController.self, action: #selector(refreshButtonPressed), for: .touchUpInside)
         return button
     }()
     
-    // Lazy sets up the collection view when accessed, Does layout/collectionView order matter?
+//  Lazy?, Does layout/collectionView order matter?
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        // Layout Settings
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: view.frame.size.width/3.5, height: view.frame.size.width/3.5)
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
+        // CollectionView Settings
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout) // Set to zero to allow autolayout modification
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CollectionViewCellTemplate.self, forCellWithReuseIdentifier: CollectionViewCellTemplate.identifier)
@@ -95,40 +97,37 @@ class ViewController: UIViewController {
         return collectionView
     }()
     
-// Lifecycle ------------------------------------------------------------------------------------------------------------------
+//MARK: Lifecycle -----------------------------------------------------------------------------------------------------------------------------
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Hide Navigation bar for root controller
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set background color
         view.backgroundColor = UIColor(named: "WerddColor")
         
-        // UITableViewDataSource and UITableViewDelegate delegates work to ViewController for tableView by declaring this
-        //tableView.dataSource = self
-        //tableView.delegate = self
-        
-        // Declare extension stuff
+        // UICollectionViewDataSource and UICollectionViewDelegate delegate work to ViewController through these settings
         collectionView.dataSource = self
         collectionView.delegate = self
         
         // Set up UI
         arrangeUI()
-        
-        // Set up navigation
-        arrangeNav()
     }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // Configure navigation related settings
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-// Functions -------------------------------------------------------------------------------------------------------------------
+//MARK: Functions -----------------------------------------------------------------------------------------------------------------------------
     // Update views with new information
     func updateViews(withDictionary dictionary: Word) {
-/// ASK!!!!!! Why ? in instruction video and what "withDictionary"
+///     ASK!!!!!! Why ? in instruction video and what "withDictionary"
         wordLabel.text = dictionary.title
         typeLabel.text = dictionary.type
         definitionLabel.text = dictionary.definition
@@ -136,7 +135,7 @@ class ViewController: UIViewController {
     
     // Randomize which word is pulled from the dictionary (and shown)
     func randomizeWord() -> Word? {
-/// ASKK!!!!!! how to provide an operator in case dictionary fail with ??
+///     ASKK!!!!!! how to provide an operator in case dictionary fail with ??
         return Volume.dictionary.randomElement()
     }
     
@@ -187,7 +186,7 @@ class ViewController: UIViewController {
             wordLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 20),
             wordLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 23),
             
-            typeLabel.topAnchor.constraint(equalTo: wordLabel.topAnchor, constant: 17), /// Would it be better to specify bottom text alignment and have typeLabel instead bottom anchor to worldlabel bottom anchor? Then location next to word label should be based on vertical size and not respective constraints?
+            typeLabel.topAnchor.constraint(equalTo: wordLabel.topAnchor, constant: 17), /// Would it be better to specify bottom text alignment and have typeLabel instead bottom anchor to worldlabel bottom anchor? Then location next to word label should be based on vertical device size and not respective constraints?
             typeLabel.leadingAnchor.constraint(equalTo: wordLabel.trailingAnchor, constant: 10),
             typeLabel.trailingAnchor.constraint(lessThanOrEqualTo: cardView.trailingAnchor),
             
@@ -204,13 +203,9 @@ class ViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-    
-    func arrangeNav() {
-        
-    }
 }
 
-//Extensions -------------------------------------------------------------------------------------------------------------------
+//MARK: Extensions ---------------------------------------------------------------------------------------------------------------------------
 extension ViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1//return producttype.allcases.count, CaseIterable
@@ -221,7 +216,7 @@ extension ViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellTemplate.identifier, for: indexPath) as? CollectionViewCellTemplate else {
             return CollectionViewCellTemplate()
         }
-///WHY?
+///     WHY?
         let Word: Word? = Volume.dictionary[indexPath.row]
         if let Word = Word {
             cell.update(title: Word.title, definition: Word.definition)
@@ -238,7 +233,8 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(Volume.dictionary[indexPath.row].title)")
-//        navigationController?.pushViewController(<#T##viewController: UIViewController##UIViewController#>, animated: <#T##Bool#>)
+        navigationItem.title = Volume.dictionary[indexPath.row].title
+        navigationController?.pushViewController(WordViewController(indexPath: indexPath.row, Volume: Volume), animated: true)
     }
 }
 
@@ -248,7 +244,7 @@ extension ViewController: UICollectionViewDelegate {
 //    static let backgroundColor = UIColor(named: "WerddColor")
 //    static let werddColor = UIColor(named: "CardColor")
 //}
-
+//
 
 
 

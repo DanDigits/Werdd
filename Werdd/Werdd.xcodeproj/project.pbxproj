@@ -20,6 +20,7 @@
 		658E11D12854428300BF2CE5 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658E11D02854428300BF2CE5 /* Dictionary.swift */; };
 		658E11D3285BF03B00BF2CE5 /* TableViewCellTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658E11D2285BF03B00BF2CE5 /* TableViewCellTemplate.swift */; };
 		65A26D122931BB3100B139AB /* CollectionViewCellTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A26D112931BB3100B139AB /* CollectionViewCellTemplate.swift */; };
+		65F39EEC294EA13600A09BBF /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F39EEB294EA13600A09BBF /* WordViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		658E11D02854428300BF2CE5 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		658E11D2285BF03B00BF2CE5 /* TableViewCellTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellTemplate.swift; sourceTree = "<group>"; };
 		65A26D112931BB3100B139AB /* CollectionViewCellTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellTemplate.swift; sourceTree = "<group>"; };
+		65F39EEB294EA13600A09BBF /* WordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				653BC8FD27E3C92C00783F6B /* AppDelegate.swift */,
 				653BC8FF27E3C92C00783F6B /* SceneDelegate.swift */,
 				653BC90127E3C92C00783F6B /* ViewController.swift */,
+				65F39EEB294EA13600A09BBF /* WordViewController.swift */,
 				658E11D2285BF03B00BF2CE5 /* TableViewCellTemplate.swift */,
 				658E11D02854428300BF2CE5 /* Dictionary.swift */,
 				653BC90627E3C92D00783F6B /* Assets.xcassets */,
@@ -176,6 +179,7 @@
 				65A26D122931BB3100B139AB /* CollectionViewCellTemplate.swift in Sources */,
 				653BC8FE27E3C92C00783F6B /* AppDelegate.swift in Sources */,
 				653BC90027E3C92C00783F6B /* SceneDelegate.swift in Sources */,
+				65F39EEC294EA13600A09BBF /* WordViewController.swift in Sources */,
 				658E11D12854428300BF2CE5 /* Dictionary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
