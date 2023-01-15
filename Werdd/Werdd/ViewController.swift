@@ -5,15 +5,27 @@
 //  Created by Daniel Cruz-Castro on 3/17/22.
 //
 //  To Do:
-//  - Clean up code through subclassing and extensions
 //  - Fix ScrollView
-//  - Figure custom color function
+//
+//  - Custom color function?
+//  - Clean up code through subclassing and extensions
 
 import UIKit
+
+// Codable protocol lets us encode/decode, decoding = JSON -> data models, encode data model -> JSON. They have to be verbatim to the field values in the API/JSON. Value types must be correct too.
+//struct User: Codable {
+//    let name: String
+//    let username: String
+//    let email: String
+//}
 
 class ViewController: UIViewController {
     var buttonCounter: Int = 0
     var Volume = Dictionary()
+    var VolumeTwo: [String] = []
+    //extension UIColor {
+    //    static let backgroundColor = UIColor(named: "WerddColor")
+    //    static let werddColor = UIColor(named: "CardColor")
     
     let appLabel: UILabel = {
         let label = UILabel()
@@ -77,7 +89,8 @@ class ViewController: UIViewController {
     let refreshButton: ButtonTemplate = {
         let button = ButtonTemplate()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(ViewController.self, action: #selector(refreshButtonPressed), for: .touchUpInside)
+        //button.addTarget(self, action: #selector(refreshButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(fetchDictionary), for: .touchUpInside)
         return button
     }()
     
@@ -93,7 +106,8 @@ class ViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout) // Set to zero to allow autolayout modification
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(CollectionViewCellTemplate.self, forCellWithReuseIdentifier: CollectionViewCellTemplate.identifier)
-        collectionView.backgroundColor = .systemPink
+        collectionView.backgroundColor = UIColor(named: "StandColor")
+        collectionView.layer.cornerRadius = 25
         return collectionView
     }()
     
@@ -203,12 +217,42 @@ class ViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
+    
+    @objc func fetchDictionary() {
+        guard let wordURL = URL(string: "https://random-words5.p.rapidapi.com/getMultipleRandom?count=20") else {
+            print("Invalid URL")
+            return
+        }
+        
+        // Create URL object, and add values to the HTTP header field, check API documentation to see whats necessary in urlrequest header fields
+        var urlRequest = URLRequest(url: wordURL)
+        urlRequest.httpMethod = "GET"
+        urlRequest.setValue("random-words5.p.rapidapi.com", forHTTPHeaderField: "X-RapidAPI-Host")
+        urlRequest.setValue("3663639591mshbec2c73c703eec3p104b64jsnffa9171d5ea0", forHTTPHeaderField: "X-RapidAPI-Key")
+        
+        // To start a networking task, start a session. Data, response, error are closure parameter values; are all optionals
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            // If method can throw an error, wrap in a do/catch/try block
+            do {
+                print(data) // Print data size
+                let Volume = try JSONDecoder().decode([String].self, from: data) // Creates array of strings in "VolumeTwo"
+                self.VolumeTwo = Volume
+                print(Volume)
+                DispatchQueue.main.async { [weak self] in
+                    self?.wordLabel.text = Volume.randomElement()
+                }
+            } catch {print(error)}
+        }.resume()
+    }
 }
 
 //MARK: Extensions ---------------------------------------------------------------------------------------------------------------------------
 extension ViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1//return producttype.allcases.count, CaseIterable
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -226,6 +270,7 @@ extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Volume.dictionary.count
+        //return VolumeTwo[index]
     }
 }
 
@@ -237,15 +282,6 @@ extension ViewController: UICollectionViewDelegate {
         navigationController?.pushViewController(WordViewController(indexPath: indexPath.row, Volume: Volume), animated: true)
     }
 }
-
-
-//Extension for custom colors ---------------------------------------------------------------------------------------------------
-//extension UIColor {
-//    static let backgroundColor = UIColor(named: "WerddColor")
-//    static let werddColor = UIColor(named: "CardColor")
-//}
-//
-
 
 
 

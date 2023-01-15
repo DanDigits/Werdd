@@ -5,7 +5,7 @@
 //  Created by Daniel Cruz-Castro on 12/17/22.
 //
 //  To Do:
-//  - Finish with Volume information
+//  - Implement a Stack View
 
 import UIKit
 
@@ -13,36 +13,121 @@ class WordViewController: UIViewController {
     private var indexPath: Int
     private var Volume = Dictionary()
     
-    let definitionCard: UIView = {
-        let view = UIView()
+    let definitionCard: UIStackView = {
+        let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
         view.layer.cornerRadius = 15
         view.backgroundColor = UIColor(named: "CardColor")
         return view
     }()
     
-    let exampleCard: UIView = {
-        let view = UIView()
+    let definitionHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Definition"
+        label.textAlignment = .left
+        label.textColor = UIColor(named: "WerddColor")
+        return label
+    }()
+    
+    let partOfSpeech: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "AHHHHHHHHHH"
+        label.font = UIFont(name: "PTSerif-Italic", size: 15)
+        label.textAlignment = .left
+        return label
+    }()
+    
+    let definitionLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        label.text = "AHHHHHHHHHH"
+        return label
+    }()
+    
+    
+    let exampleCard: UIStackView = {
+        let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
         view.layer.cornerRadius = 15
         view.backgroundColor = .orange
         return view
     }()
     
-    let synonymCard: UIView = {
-        let view = UIView()
+    let exampleHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Examples"
+        label.textAlignment = .left
+        label.textColor = UIColor(named: "WerddColor")
+        return label
+    }()
+    
+    let exampleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        return label
+    }()
+    
+    
+    let synonymCard: UIStackView = {
+        let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
         view.layer.cornerRadius = 15
         view.backgroundColor = .green
         return view
     }()
     
-    let antonymCard: UIView = {
-        let view = UIView()
+    let synonymHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Synonyms"
+        label.textAlignment = .left
+        label.textColor = UIColor(named: "WerddColor")
+        return label
+    }()
+    
+    let synonymLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        return label
+    }()
+    
+    
+    let antonymCard: UIStackView = {
+        let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
         view.layer.cornerRadius = 15
         view.backgroundColor = .red
         return view
+    }()
+    
+    let antonymHeaderLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Antonyms"
+        label.textAlignment = .left
+        label.textColor = UIColor(named: "WerddColor")
+        return label
+    }()
+    
+    let antonymLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        return label
     }()
     
 //    let tableView: UITableView = {
@@ -90,10 +175,19 @@ class WordViewController: UIViewController {
     
     // Arranges UI
     func arrangeUI() {
-        view.addSubview(definitionCard)
-        view.addSubview(synonymCard)
-        view.addSubview(antonymCard)
+        definitionCard.addArrangedSubview(definitionHeaderLabel)
+        definitionCard.addArrangedSubview(definitionLabel)
+        definitionCard.addArrangedSubview(partOfSpeech)
+        synonymCard.addSubview(synonymHeaderLabel)
+        synonymCard.addSubview(synonymLabel)
+        antonymCard.addSubview(antonymHeaderLabel)
+        antonymCard.addSubview(antonymLabel)
+        exampleCard.addSubview(exampleHeaderLabel)
+        exampleCard.addSubview(exampleLabel)
         view.addSubview(exampleCard)
+        view.addSubview(antonymCard)
+        view.addSubview(synonymCard)
+        view.addSubview(definitionCard)
         
         NSLayoutConstraint.activate([
             // Definition Card
@@ -103,22 +197,22 @@ class WordViewController: UIViewController {
             definitionCard.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
             
             // Synonym Card
-            synonymCard.topAnchor.constraint(equalTo: definitionCard.topAnchor, constant: 20),
+            synonymCard.topAnchor.constraint(equalTo: definitionCard.bottomAnchor, constant: 20),
             synonymCard.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
             synonymCard.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
-            synonymCard.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
+            synonymCard.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.12),
             
             // Antonym Card
-            antonymCard.topAnchor.constraint(equalTo: synonymCard.topAnchor, constant: 20),
+            antonymCard.topAnchor.constraint(equalTo: synonymCard.bottomAnchor, constant: 20),
             antonymCard.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
             antonymCard.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
-            antonymCard.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
+            antonymCard.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.12),
             
             // Example Card
-            exampleCard.topAnchor.constraint(equalTo: antonymCard.topAnchor, constant: 20),
+            exampleCard.topAnchor.constraint(equalTo: antonymCard.bottomAnchor, constant: 20),
             exampleCard.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
             exampleCard.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
-            exampleCard.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
+            exampleCard.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.12),
             
         ])
         
